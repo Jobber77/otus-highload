@@ -1,0 +1,11 @@
+START TRANSACTION;
+
+CREATE TABLE UserFriends (
+    UserId bigint NOT NULL,
+    FriendId bigint NOT NULL,
+    CONSTRAINT PRIMARY KEY (UserId, FriendId),
+    CONSTRAINT FK_UserId FOREIGN KEY (UserId) REFERENCES Users (Id),
+    CONSTRAINT FK_FriendId FOREIGN KEY (FriendId) REFERENCES Users (Id)
+);
+
+COMMIT;
