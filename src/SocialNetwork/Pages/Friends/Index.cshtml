@@ -1,0 +1,20 @@
+@page
+@model SocialNetwork.Pages.Friends.Index
+@{
+    ViewData["Title"] = "Friends list";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <h3>Your friends:</h3>
+
+    @foreach (var person in Model.Friends)
+    {
+        <div class="col-md-9">
+            <label>@person.Name</label>
+            <label>@person.Surname</label>
+            <label>@person.Age</label>
+            <a asp-page="/Persons/Index" asp-route-id=@person.Id>Go to page</a>
+        </div>
+    }
+</div>

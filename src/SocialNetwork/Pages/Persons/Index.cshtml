@@ -1,0 +1,42 @@
+@page
+@model SocialNetwork.Pages.Persons.Index
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Personal page of @Model.Name</h2>
+        <partial name="Shared/_StatusMessage" for="Error" />
+        <form id="friend-form" method="post">
+            <input asp-for="Id" hidden=""/>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                @Model.Name
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname"></label>
+                @Model.Surname
+            </div>
+            <div class="form-group">
+                <label asp-for="Age"></label>
+                @Model.Age
+            </div>
+            <div class="form-group">
+                <label asp-for="Interests"></label>
+                @Model.Interests
+            </div>
+            <div class="form-group">
+                <label asp-for="City"></label>
+                @Model.City
+            </div>
+            @if (!Model.IsFriend)
+            {
+                <button id="friendSubmit" type="submit" class="btn btn-primary" asp-page-handler="AddFriend">Add to friends</button>
+            }
+            else
+            {
+                <form id="remove-friend-form" method="post">
+                    <button id="removeFriendSubmit" type="submit" class="btn btn-primary" asp-page-handler="RemoveFriend">Remove from friends</button>
+                </form>
+            }
+        </form>
+    </div>
+</div>

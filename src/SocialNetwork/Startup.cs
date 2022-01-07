@@ -21,7 +21,8 @@ namespace SocialNetwork
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplicationIdentity(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddUserStore<UserGateway>();
+                .AddUserStore<UsersGateway>();
+            services.AddInfrastructure();
             services.AddRazorPages();
         }
 
@@ -47,7 +48,10 @@ namespace SocialNetwork
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages().RequireAuthorization();
+            });
         }
     }
 }

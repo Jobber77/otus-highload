@@ -1,0 +1,44 @@
+@page
+@model SocialNetwork.Pages.Persons.Search
+@{
+    ViewData["Title"] = "Search for friends";
+}
+
+<h1>@ViewData["Title"]</h1>
+<h3>Friends search will be implemented later. Please use hardcoded links below.</h3>
+<div class="row m">
+    <div class="col-md-9">
+        <section>
+            <form id="search" method="post">
+                <h2>Enter the person name to search</h2>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" autocomplete="name" aria-required="true" disabled=""/>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Surname"></label>
+                    <input asp-for="Surname" class="form-control" autocomplete="current-password" aria-required="true" disabled=""/>
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button id="search-submit" type="submit" class="btn btn-primary disabled">Find someone</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <h3>People found:</h3>
+
+    @foreach (var person in Model.SearchResults)
+    {
+        <div class="col-md-9">
+            <label>@person.Name</label>
+            <label>@person.Surname</label>
+            <label>@person.Age</label>
+            <a asp-page="/Persons/Index" asp-route-id=@person.Id>Go to page</a>
+        </div>
+    }
+</div>
