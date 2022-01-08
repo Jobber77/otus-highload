@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Core", "src\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infrastructure", "src\SocialNetwork.Infrastructure\SocialNetwork.Infrastructure.csproj", "{24923B06-6ACC-49D9-BE49-37CA0F33BF96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infrastructure.Migrator", "src\SocialNetwork.Infrastructure.Migrator\SocialNetwork.Infrastructure.Migrator.csproj", "{215F6298-FA0E-4B39-93C7-2FB9F8D827B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{24923B06-6ACC-49D9-BE49-37CA0F33BF96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24923B06-6ACC-49D9-BE49-37CA0F33BF96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24923B06-6ACC-49D9-BE49-37CA0F33BF96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{215F6298-FA0E-4B39-93C7-2FB9F8D827B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{215F6298-FA0E-4B39-93C7-2FB9F8D827B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{215F6298-FA0E-4B39-93C7-2FB9F8D827B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{215F6298-FA0E-4B39-93C7-2FB9F8D827B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

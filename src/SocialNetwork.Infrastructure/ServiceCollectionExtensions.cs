@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using SocialNetwork.Core;
 using SocialNetwork.Core.Common;
 using SocialNetwork.Core.Users;
 using SocialNetwork.Infrastructure.Database;
