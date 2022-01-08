@@ -32,7 +32,6 @@ namespace SocialNetwork.Infrastructure.Migrator
                                 throw new ArgumentNullException(nameof(connectionString));
                             return connectionString;
                         })
-                        .WithVersionTable(new VersionTable())
                         .ScanIn(typeof(AddUsers).Assembly).For.Migrations())
                     .AddLogging(lb => lb.AddFluentMigratorConsole()));
             return host.Build().Services;
