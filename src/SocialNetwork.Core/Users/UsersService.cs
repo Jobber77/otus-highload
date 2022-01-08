@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentResults;
@@ -11,15 +10,13 @@ namespace SocialNetwork.Core.Users
     public class UsersService : IUsersService
     {
         private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
         private readonly IUsersGateway _gateway;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UsersService(UserManager<User> userManager, SignInManager<User> signInManager, 
+        public UsersService(UserManager<User> userManager, 
             IUsersGateway gateway, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _gateway = gateway;
             _unitOfWork = unitOfWork;
         }
@@ -30,7 +27,6 @@ namespace SocialNetwork.Core.Users
 
             if (identityResult.Succeeded)
             {
-                await _signInManager.SignInAsync(user, isPersistent: false);
                 await _unitOfWork.Commit(token);
                 return Result.Ok(user);
             }

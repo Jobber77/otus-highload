@@ -8,6 +8,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infrastructure.Migrator", "src\SocialNetwork.Infrastructure.Migrator\SocialNetwork.Infrastructure.Migrator.csproj", "{215F6298-FA0E-4B39-93C7-2FB9F8D827B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E6CE0155-49D8-4AB9-B056-894C53F300C1}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+		.dockerignore = .dockerignore
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

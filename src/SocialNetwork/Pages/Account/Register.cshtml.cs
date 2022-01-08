@@ -76,10 +76,12 @@ namespace SocialNetwork.Pages.Account
         }
         
         private readonly IUsersService _usersService;
+        private readonly SignInManager<User> _signInManager;
 
-        public RegisterModel(IUsersService usersService)
+        public RegisterModel(IUsersService usersService, SignInManager<User> signInManager)
         {
             _usersService = usersService;
+            _signInManager = signInManager;
         }
 
         public Task OnGetAsync(string returnUrl = null)
@@ -98,7 +100,10 @@ namespace SocialNetwork.Pages.Account
             var user = CreateUser();
             var result = await _usersService.CreateUser(user, Input.Password, token);
             if (result.IsSuccess)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
                 return LocalRedirect(returnUrl);
+            }
 
             foreach (var error in result.Errors)
                 ModelState.AddModelError(string.Empty, error.Message);
