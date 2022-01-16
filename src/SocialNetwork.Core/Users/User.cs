@@ -6,12 +6,12 @@ namespace SocialNetwork.Core.Users
     {
         public long Id { get; private set; }
         public string UserName { get; }
-        public string NormalizedUserName => UserName.ToUpperInvariant();
+        public string NormalizedUserName => StringNormalizer.Normalize(UserName);
         public string? PasswordHash { get; private set; }
         public string Name { get; }
-        public string NormalizedName => Name.ToUpperInvariant();
+        public string NormalizedName => StringNormalizer.Normalize(Name);
         public string Surname { get; }
-        public string NormalizedSurname => Surname.ToUpperInvariant();
+        public string NormalizedSurname => StringNormalizer.Normalize(Surname);
         public int? Age { get; }
         public string? Interests { get; }
         public string City { get; }

@@ -10,5 +10,6 @@ namespace SocialNetwork.Core.Users
         Task<Result<User>> CreateUser(User user, string password, CancellationToken token);
         Task<User?> GetUser(long id, CancellationToken token);
         Task<IReadOnlyCollection<User>> SelectUsers(CancellationToken token, params long[] ids);
+        Task<IReadOnlyCollection<User>> SearchUsers(string? name, string? surname, CancellationToken token);
     }
 }

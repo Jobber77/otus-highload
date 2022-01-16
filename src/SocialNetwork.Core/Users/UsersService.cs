@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,7 +50,19 @@ namespace SocialNetwork.Core.Users
         {
             return await _gateway.SelectUsers(token, ids);
         }
-        
-        
+
+        public async Task<IReadOnlyCollection<User>> SearchUsers(string? name, string? surname, CancellationToken token)
+        {
+            if (string.IsNullOrEmpty(name) && string.IsNullOrEmpty(surname))
+                return Array.Empty<User>();
+
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(surname))
+                return await _gateway.SearchUsers(name, surname, token);
+            
+            if (!string.IsNullOrEmpty(name))
+                return await _gateway.SearchUsersByName(name, token);
+
+            return await _gateway.SearchUsersBySurname(surname!, token);
+        }
     }
 }

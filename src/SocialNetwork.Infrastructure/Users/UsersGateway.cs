@@ -91,10 +91,7 @@ namespace SocialNetwork.Infrastructure.Users
             var connection = _unitOfWork.Connection.Value;
             var found = await connection.QueryAsync<UserStore>(command);
             var user = found.SingleOrDefault();
-            return user is null
-                ? null
-                : new User(user.Id, user.UserName, user.Name, user.Surname, user.City, user.Age, user.Interests,
-                    user.PasswordHash);
+            return user is null ? null : ToUser(user);
         }
         
 #nullable enable
@@ -123,11 +120,37 @@ namespace SocialNetwork.Infrastructure.Users
         {
             var command = new CommandDefinition(UsersQueries.GetUsersByIds, 
                 new { Ids = ids }, cancellationToken: cancellationToken);
-            var connection = _unitOfWork.Connection.Value;
-            var found = await connection.QueryAsync<UserStore>(command);
-            var result = found.Select(user => new User(user.Id, user.UserName, user.Name, user.Surname, user.City,
-                user.Age, user.Interests, user.PasswordHash)).ToList();
+            var result = await SelectManyUsers(command);
+
+            return result;
+        }
+
+        public async Task<IReadOnlyCollection<User>> SearchUsers(string name, string surname, CancellationToken token)
+        {
+            var command = new CommandDefinition(UsersQueries.SearchUsersByNameAndSurname, 
+                new 
+                { 
+                    Name = $"{StringNormalizer.Normalize(name)}%", 
+                    Surname = $"%{StringNormalizer.Normalize(surname)}%" 
+                }, cancellationToken: token);
+            var result = await SelectManyUsers(command);
             
+            return result;
+        }
+
+        public async Task<IReadOnlyCollection<User>> SearchUsersByName(string name, CancellationToken token)
+        {
+            var command = new CommandDefinition(UsersQueries.SearchUsersByName, 
+                new { Name = $"{StringNormalizer.Normalize(name)}%" }, cancellationToken: token);
+            var result = await SelectManyUsers(command);
+            return result;
+        }
+
+        public async Task<IReadOnlyCollection<User>> SearchUsersBySurname(string surname, CancellationToken token)
+        {
+            var command = new CommandDefinition(UsersQueries.SearchUsersBySurname, 
+                new { Surname = $"{StringNormalizer.Normalize(surname)}%" }, cancellationToken: token);
+            var result = await SelectManyUsers(command);
             return result;
         }
 
@@ -142,10 +165,21 @@ namespace SocialNetwork.Infrastructure.Users
             var connection = _unitOfWork.Connection.Value;
             var found = await connection.QueryAsync<UserStore>(command);
             var user = found.SingleOrDefault();
-            return user is null
-                ? null
-                : new User(user.Id, user.UserName, user.Name, user.Surname, user.City, user.Age, user.Interests,
-                    user.PasswordHash);
+            return user is null ? null : ToUser(user);
+        }
+        
+        private async Task<List<User>> SelectManyUsers(CommandDefinition command)
+        {
+            var connection = _unitOfWork.Connection.Value;
+            var found = await connection.QueryAsync<UserStore>(command);
+            var result = found.Select(ToUser).ToList();
+            return result;
+        }
+        
+        private static User ToUser(UserStore user)
+        {
+            return new User(user.Id, user.UserName, user.Name, user.Surname, user.City,
+                user.Age, user.Interests, user.PasswordHash);
         }
     }
 }

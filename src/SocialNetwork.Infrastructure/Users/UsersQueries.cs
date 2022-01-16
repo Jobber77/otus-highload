@@ -75,5 +75,56 @@ namespace SocialNetwork.Infrastructure.Users
                 City
             FROM Users
             WHERE Id IN @Ids";
+        
+        public static string SearchUsersByName => @"
+            SELECT
+                Id,
+                UserName,
+                NormalizedUserName,
+                PasswordHash,
+                Name,
+                NormalizedName,
+                Surname,
+                NormalizedSurname,
+                Age,
+                Interests,
+                City
+            FROM Users
+            WHERE NormalizedName like @Name
+            ORDER BY Id";
+        
+        public static string SearchUsersBySurname => @"
+            SELECT
+                Id,
+                UserName,
+                NormalizedUserName,
+                PasswordHash,
+                Name,
+                NormalizedName,
+                Surname,
+                NormalizedSurname,
+                Age,
+                Interests,
+                City
+            FROM Users
+            WHERE NormalizedSurname like @Surname
+            ORDER BY Id";
+        
+        public static string SearchUsersByNameAndSurname => @"
+            SELECT
+                Id,
+                UserName,
+                NormalizedUserName,
+                PasswordHash,
+                Name,
+                NormalizedName,
+                Surname,
+                NormalizedSurname,
+                Age,
+                Interests,
+                City
+            FROM Users
+            WHERE NormalizedName like @Name AND NormalizedSurname like @Surname
+            ORDER BY Id";
     }
 }

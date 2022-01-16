@@ -9,28 +9,28 @@
 <div class="row m">
     <div class="col-md-9">
         <section>
-            <form id="search" method="post">
+            <form id="search" method="get">
                 <h2>Enter the person name to search</h2>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" autocomplete="name" aria-required="true" disabled=""/>
+                    <input asp-for="Name" class="form-control" autocomplete="name" aria-required="true"/>
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Surname"></label>
-                    <input asp-for="Surname" class="form-control" autocomplete="current-password" aria-required="true" disabled=""/>
+                    <input asp-for="Surname" class="form-control" autocomplete="current-password" aria-required="true" />
                     <span asp-validation-for="Surname" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button id="search-submit" type="submit" class="btn btn-primary disabled">Find someone</button>
+                    <button id="search-submit" type="submit" class="btn btn-primary">Find someone</button>
                 </div>
             </form>
         </section>
     </div>
 </div>
 <div class="row">
-    <h3>People found:</h3>
+    <h3>@Model.SearchResultMessage</h3>
 
     @foreach (var person in Model.SearchResults)
     {
