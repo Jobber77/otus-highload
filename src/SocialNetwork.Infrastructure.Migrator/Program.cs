@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentMigrator.Runner;
 using FluentMigrator.Runner.VersionTableInfo;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ namespace SocialNetwork.Infrastructure.Migrator
         private static IServiceProvider CreateServices()
         {
             var host = Host.CreateDefaultBuilder()
+                .ConfigureHostConfiguration(b => b.AddUserSecrets<Program>())
                 .ConfigureServices(s => s
                     .AddFluentMigratorCore()
                     .ConfigureRunner(rb => rb
