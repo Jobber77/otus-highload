@@ -1,0 +1,122 @@
+﻿version: '3.5'
+
+networks:
+  default:
+    external: true
+    name: social-network
+
+services:
+
+  mysql-node1:
+    image: mysql/mysql-server:8.0
+    container_name: mysql-node1
+    hostname: mysql-node1
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: SocialNetwork
+      MYSQL_ROOT_HOST: '%'
+    env_file:
+      - ~/secrets/mysql-cluster.conf
+    command: ["mysqld",
+              "--server-id=1",
+              "--log-bin=mysql-bin-1.log",
+              "--enforce-gtid-consistency=ON",
+              "--log-slave-updates=ON",
+              "--gtid-mode=ON",
+              "--transaction-write-set-extraction=XXHASH64",
+              "--binlog-checksum=NONE",
+              "--binlog-format=ROW",
+              "--master-info-repository=TABLE",
+              "--relay-log-info-repository=TABLE",
+              "--plugin-load-add=group_replication.so",
+              "--plugin-load-add=semisync_master.so",
+              "--plugin-load-add=semisync_slave.so",
+              "--relay-log-recovery=ON",
+              "--loose-group-replication-start-on-boot=OFF",
+              "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+              "--loose-group-replication-local-address=mysql-node1:6606",
+              "--loose-group-replication-group-seeds=mysql-node1:6606,mysql-node2:6606,mysql-node3:6606",
+              "--loose-group-replication-single-primary-mode=ON",
+              "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+    healthcheck:
+      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+      interval: 2s
+      retries: 20
+
+  mysql-node2:
+    image: mysql/mysql-server:8.0
+    container_name: mysql-node2
+    hostname: mysql-node2
+    ports:
+      - "3308:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: SocialNetwork
+      MYSQL_ROOT_HOST: '%'
+    env_file:
+      - ~/secrets/mysql-cluster.conf
+    command: ["mysqld",
+              "--server-id=2",
+              "--log-bin=mysql-bin-1.log",
+              "--enforce-gtid-consistency=ON",
+              "--log-slave-updates=ON",
+              "--gtid-mode=ON",
+              "--transaction-write-set-extraction=XXHASH64",
+              "--binlog-checksum=NONE",
+              "--binlog-format=ROW",
+              "--master-info-repository=TABLE",
+              "--relay-log-info-repository=TABLE",
+              "--plugin-load-add=group_replication.so",
+              "--plugin-load-add=semisync_master.so",
+              "--plugin-load-add=semisync_slave.so",
+              "--relay-log-recovery=ON",
+              "--loose-group-replication-start-on-boot=OFF",
+              "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+              "--loose-group-replication-local-address=mysql-node2:6606",
+              "--loose-group-replication-group-seeds=mysql-node1:6606,mysql-node2:6606,mysql-node3:6606",
+              "--loose-group-replication-single-primary-mode=ON",
+              "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+    healthcheck:
+      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+      interval: 2s
+      retries: 20
+
+  mysql-node3:
+    image: mysql/mysql-server:8.0
+    container_name: mysql-node3
+    hostname: mysql-node3
+    ports:
+      - "3309:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: SocialNetwork
+      MYSQL_ROOT_HOST: '%'
+    env_file:
+      - ~/secrets/mysql-cluster.conf
+    command: ["mysqld",
+              "--server-id=3",
+              "--log-bin=mysql-bin-1.log",
+              "--enforce-gtid-consistency=ON",
+              "--log-slave-updates=ON",
+              "--gtid-mode=ON",
+              "--transaction-write-set-extraction=XXHASH64",
+              "--binlog-checksum=NONE",
+              "--binlog-format=ROW",
+              "--master-info-repository=TABLE",
+              "--relay-log-info-repository=TABLE",
+              "--plugin-load-add=group_replication.so",
+              "--plugin-load-add=semisync_master.so",
+              "--plugin-load-add=semisync_slave.so",
+              "--relay-log-recovery=ON",
+              "--loose-group-replication-start-on-boot=OFF",
+              "--loose-group-replication-group-name=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+              "--loose-group-replication-local-address=mysql-node3:6606",
+              "--loose-group-replication-group-seeds=mysql-node1:6606,mysql-node2:6606,mysql-node3:6606",
+              "--loose-group-replication-single-primary-mode=ON",
+              "--loose-group-replication-enforce-update-everywhere-checks=OFF"]
+    healthcheck:
+      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+      interval: 2s
+      retries: 20

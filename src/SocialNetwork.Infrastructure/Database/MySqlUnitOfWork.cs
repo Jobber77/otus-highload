@@ -12,11 +12,11 @@ namespace SocialNetwork.Infrastructure.Database
         public Lazy<DbTransaction> Transaction { get; }
         public Lazy<DbConnection> Connection { get; }
 
-        public MySqlUnitOfWork(IConfiguration configuration)
+        public MySqlUnitOfWork(IConnectionFactory connectionFactory)
         {
             Connection = new Lazy<DbConnection>( () =>
             {
-                var connectionString = configuration.GetConnectionString("DefaultConnection");
+                var connectionString = connectionFactory.GetMaster();
                 var connection = new MySqlConnection(connectionString);
                 connection.Open();
                 return connection;

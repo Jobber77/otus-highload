@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{E6CE01
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
 		.dockerignore = .dockerignore
+        docker-compose-infra.yml = docker-compose-infra.yml
+		docker-compose-app.yml = docker-compose-app.yml
 	EndProjectSection
 EndProject
 Global

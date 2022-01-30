@@ -16,11 +16,14 @@ namespace SocialNetwork.Infrastructure.Users.Friends
     public class UserFriendsGateway : IUserFriendsGateway
     {
         private readonly IDatabaseUnitOfWork _unitOfWork;
+        private readonly IConnectionFactory _connectionFactory;
         private readonly ILogger<UserFriendsGateway> _logger;
 
-        public UserFriendsGateway(IDatabaseUnitOfWork unitOfWork, ILogger<UserFriendsGateway> logger)
+        public UserFriendsGateway(IDatabaseUnitOfWork unitOfWork, IConnectionFactory connectionFactory, 
+            ILogger<UserFriendsGateway> logger)
         {
             _unitOfWork = unitOfWork;
+            _connectionFactory = connectionFactory;
             _logger = logger;
         }
 
@@ -28,7 +31,7 @@ namespace SocialNetwork.Infrastructure.Users.Friends
         {
             var command = new CommandDefinition(FriendsQueries.SelectFriends, 
                 new { UserId = user.Id}, cancellationToken: token);
-            var connection = _unitOfWork.Connection.Value;
+            await using var connection = new MySqlConnection(_connectionFactory.GetReplica());
             var friends = await connection.QueryAsync<UserFriendStore>(command);
             var result = friends.Select(f => new UserFriend(f.UserId, f.FriendId)).ToList();
             return result;
@@ -38,7 +41,7 @@ namespace SocialNetwork.Infrastructure.Users.Friends
         {
             var command = new CommandDefinition(FriendsQueries.GetFriend, 
                 new { UserId = user.Id, FriendId = friendId }, cancellationToken: token);
-            var connection = _unitOfWork.Connection.Value;
+            await using var connection = new MySqlConnection(_connectionFactory.GetReplica());
             var friend = await connection.QueryFirstOrDefaultAsync<UserFriendStore>(command);
             return friend is null ? null : new UserFriend(friend.UserId, friend.FriendId);
         }

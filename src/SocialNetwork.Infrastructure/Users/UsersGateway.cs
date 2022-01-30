@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Identity;
+using MySqlConnector;
 using SocialNetwork.Core.Users;
 using SocialNetwork.Infrastructure.Database;
 
@@ -13,10 +14,12 @@ namespace SocialNetwork.Infrastructure.Users
     public class UsersGateway : IUsersGateway, IUserStore<User>, IUserPasswordStore<User>
     {
         private readonly IDatabaseUnitOfWork _unitOfWork;
+        private readonly IConnectionFactory _connectionFactory;
 
-        public UsersGateway(IDatabaseUnitOfWork unitOfWork)
+        public UsersGateway(IDatabaseUnitOfWork unitOfWork, IConnectionFactory connectionFactory)
         {
             _unitOfWork = unitOfWork;
+            _connectionFactory = connectionFactory;
         }
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
@@ -170,7 +173,7 @@ namespace SocialNetwork.Infrastructure.Users
         
         private async Task<List<User>> SelectManyUsers(CommandDefinition command)
         {
-            var connection = _unitOfWork.Connection.Value;
+            await using var connection = new MySqlConnection(_connectionFactory.GetReplica());
             var found = await connection.QueryAsync<UserStore>(command);
             var result = found.Select(ToUser).ToList();
             return result;

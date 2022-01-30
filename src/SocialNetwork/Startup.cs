@@ -22,7 +22,7 @@ namespace SocialNetwork
         {
             services.AddApplicationIdentity(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddUserStore<UsersGateway>();
-            services.AddInfrastructure();
+            services.AddInfrastructure(Configuration);
             services.AddRazorPages();
         }
 

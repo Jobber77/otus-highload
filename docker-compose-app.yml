@@ -1,0 +1,25 @@
+﻿version: '3.5'
+
+networks:
+  default:
+    external: true
+    name: social-network
+
+services:
+  social-network:
+    image: jobber77/highload:latest
+    container_name: social-network
+    hostname: social-network
+    ports:
+      - "80:80"
+    env_file:
+      - ~/secrets/social-network.conf
+    depends_on:
+      - social-network-migration
+  social-network-migration:
+    image: jobber77/highload:latest
+    container_name: social-network-migration
+    hostname: social-network-migration
+    env_file:
+      - ~/secrets/social-network.conf
+    command: SocialNetwork.Infrastructure.Migrator.dll

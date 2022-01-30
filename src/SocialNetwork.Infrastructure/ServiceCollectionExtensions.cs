@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.Core.Common;
 using SocialNetwork.Core.Users;
@@ -10,7 +11,7 @@ namespace SocialNetwork.Infrastructure
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.Scan(scan => scan
                 .FromAssembliesOf(typeof(UserStore), typeof(User))
@@ -21,6 +22,16 @@ namespace SocialNetwork.Infrastructure
                     .AsImplementedInterfaces()
                     .WithTransientLifetime()
             );
+            services.AddMySql(configuration);
+            return services;
+        }
+
+        public static IServiceCollection AddMySql(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddOptions<MySqlOptions>()
+                .Bind(configuration.GetSection(MySqlOptions.SectionName))
+                .ValidateDataAnnotations();
+            services.AddTransient<IConnectionFactory, SqlConnectionFactory>();
             services.AddScoped<IDatabaseUnitOfWork, MySqlUnitOfWork>();
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<IDatabaseUnitOfWork>());
             return services;
