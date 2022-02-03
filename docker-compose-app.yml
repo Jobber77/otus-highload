@@ -17,7 +17,7 @@ services:
     depends_on:
       - social-network-migration
   social-network-migration:
-    image: jobber77/highload:latest
+    image: aleknyazev/social-network:latest
     container_name: social-network-migration
     hostname: social-network-migration
     env_file:
