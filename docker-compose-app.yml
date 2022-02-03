@@ -7,7 +7,7 @@ networks:
 
 services:
   social-network:
-    image: jobber77/highload:latest
+    image: aleknyazev/social-network:latest
     container_name: social-network
     hostname: social-network
     ports:
